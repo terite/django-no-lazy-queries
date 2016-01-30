@@ -1,0 +1,5 @@
+/.cache
+/tests/__pycache__
+/.tox
+/django_no_lazy_queries.egg-info
+*.pyc
