@@ -1,12 +1,19 @@
+import django
 from contextlib2 import contextmanager
-from django.db.models.fields import related
 from mock import patch
 
-
-_lazy_descriptors = (
-    related.SingleRelatedObjectDescriptor,
-    related.ReverseSingleRelatedObjectDescriptor,
-)
+if django.VERSION < (1, 9):
+    from django.db.models.fields import related
+    _lazy_descriptors = (
+        related.SingleRelatedObjectDescriptor,
+        related.ReverseSingleRelatedObjectDescriptor,
+    )
+else:
+    from django.db.models.fields import related_descriptors
+    _lazy_descriptors = (
+        related_descriptors.ReverseOneToOneDescriptor,
+        related_descriptors.ForwardManyToOneDescriptor,
+    )
 
 
 def _replacement_get(self, instance, owner):
